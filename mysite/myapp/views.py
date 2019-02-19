@@ -5,9 +5,9 @@ from django.http import HttpResponse
 def index(request):
     context = {
         "header":"CINS465 Hello World",
-        "title":"CINS465 Base",
+        "title":"CINS465 Home",
     }
-    return render(request, "base.html", context=context)
+    return render(request, "home.html", context=context)
 
 
 def page(request, page):
