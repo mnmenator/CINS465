@@ -1,3 +1,8 @@
 body {
-  background-color: lightblue;
+  text-align: center;
+  background-color: #51f7f7;
+}
+
+h2 {
+  font-family: Luminari, fantasy;
 }

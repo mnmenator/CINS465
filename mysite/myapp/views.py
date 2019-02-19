@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 def index(request):
     context = {
-        "body":"CINS465 Hello World",
+        "header":"CINS465 Hello World",
         "title":"CINS465 Base",
     }
     return render(request, "base.html", context=context)
@@ -16,7 +16,7 @@ def page(request, page):
     for i in range(20*(page+1)):
         i_list += ["Item "+str(i)]
     context = {
-        "body":"CINS465 Hello World",
+        "header":"CINS465 Pages",
         "title":"CINS465 Pages",
         "item_list":i_list[p_range:p_range+10],
         "page":page,
