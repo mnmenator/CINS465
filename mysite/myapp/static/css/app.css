@@ -12,10 +12,15 @@ img {
   height: auto;
 }
 
-form{
+form {
   display:inline-block;
 }
 
 .textInput {
   width: auto;
+}
+
+p {
+  margin:0 auto;
+  width: 70%
 }
