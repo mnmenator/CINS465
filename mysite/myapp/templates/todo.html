@@ -1,0 +1,18 @@
+{% load static %}
+{% include "base.html" %}
+
+{% block content %}
+<ul>
+  {% for item in item_list %}
+      <li>{{ item }}</li>
+  {% endfor %}
+</ul>
+<form action="/" method="post">
+{% csrf_token %}
+{{ form.todo_field.label }}
+{{ form.todo_field }}
+{{ form.todo_field.errors }}
+<input type="submit" class="button" value="Add To Do Item">
+</form>
+<p>(If you want to delete, you better be an admin)</p>
+{% endblock %}

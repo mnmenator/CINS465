@@ -1,6 +1,7 @@
 from django.shortcuts import render
 #from django.utils.html import escape
-#from django.http import HttpResponse
+from django.http import JsonResponse
+import json
 # Create your views here.
 
 from . import models
@@ -12,9 +13,9 @@ def index(request):
         if form_instance.is_valid():
             #message = escape(form_instance.cleaned_data['suggestion_field'])
             #print(message)
-            new_sugg = models.ToDoItem()
-            new_sugg.todo_field = form_instance.cleaned_data["todo_field"]
-            new_sugg.save()
+            new_td = models.ToDoItem()
+            new_td.todo_field = form_instance.cleaned_data["todo_field"]
+            new_td.save()
             form_instance = forms.ToDoForm()
     else:
         form_instance = forms.ToDoForm()
@@ -47,3 +48,32 @@ def page_view(request, page):
         "next":page+1
     }
     return render(request, "page.html", context=context)
+
+def todo(request):
+    if request.method == "POST":
+        form_instance = forms.ToDoForm(request.POST)
+        if form_instance.is_valid():
+            #message = escape(form_instance.cleaned_data['suggestion_field'])
+            #print(message)
+            new_td = models.ToDoItem()
+            new_td.todo_field = form_instance.cleaned_data["todo_field"]
+            new_td.save()
+            form_instance = forms.ToDoForm()
+    else:
+        form_instance = forms.ToDoForm()
+    i_list = models.ToDoItem.objects.all()
+    context = {
+        "header":"CINS465 To Do List",
+        "title":"CINS465 To Do List",
+        "item_list":i_list,
+        "form":form_instance
+    }
+    return render(request, "todo.html", context=context)
+
+def todos_json(request):
+    i_list = models.ToDoItem.objects.all()
+    resp_list = {}
+    resp_list["todos"]=[]
+    for item in i_list:
+        resp_list["todos"]+=[{"todo":item.todo_field}]
+    return JsonResponse(resp_list)

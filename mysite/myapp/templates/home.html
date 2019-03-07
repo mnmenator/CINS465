@@ -2,11 +2,26 @@
 {% include "base.html" %}
 
 {% block content %}
-<ul>
-  {% for item in item_list %}
-      <li>{{ item }}</li>
-  {% endfor %}
-</ul>
+<div id="app-4">
+  <span v-if="seen">
+    <ul>
+      {% for item in item_list %}
+          <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </span>
+  <span v-if="unseen">
+    <ul>
+      <li v-for="todo in todos">
+        {% verbatim %}
+        <!-- {{ todo.text }} -->
+        {{ todo.todo }}
+        {% endverbatim %}
+      </li>
+    </ul>
+  </span>
+</div>
+
 <form action="/" method="post">
 {% csrf_token %}
 {{ form.todo_field.label }}
@@ -15,4 +30,9 @@
 <input type="submit" class="button" value="Add To Do Item">
 </form>
 <p>(If you want to delete, you better be an admin)</p>
+{% endblock %}
+
+{% block script %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
 {% endblock %}
