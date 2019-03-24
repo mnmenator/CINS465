@@ -1,7 +1,7 @@
+#import json
 from django.shortcuts import render
 #from django.utils.html import escape
 from django.http import JsonResponse
-import json
 # Create your views here.
 
 from . import models
@@ -73,7 +73,7 @@ def todo(request):
 def todos_json(request):
     i_list = models.ToDoItem.objects.all()
     resp_list = {}
-    resp_list["todos"]=[]
+    resp_list["todos"] = []
     for item in i_list:
-        resp_list["todos"]+=[{"todo":item.todo_field}]
+        resp_list["todos"] += [{"todo":item.todo_field}]
     return JsonResponse(resp_list)
