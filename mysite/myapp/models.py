@@ -6,3 +6,9 @@ class ToDoItem(models.Model):
 
     def __str__(self):
         return self.todo_field
+
+class ChirpItem(models.Model):
+    chirp_field = models.CharField(max_length=240)
+
+    def __str__(self):
+        return self.chirp_field

@@ -2,7 +2,7 @@
 {% include "base.html" %}
 
 {% block content %}
-<div id="app-4">
+<div id="chirp-app">
   <span v-if="seen">
     <ul>
       {% for item in item_list %}
@@ -12,10 +12,10 @@
   </span>
   <span v-if="unseen">
     <ul>
-      <li v-for="todo in todos">
+      <li v-for="chirp in chirps">
         {% verbatim %}
         <!-- {{ todo.text }} -->
-        {{ todo.todo }}
+        {{ chirp.chirp }}
         {% endverbatim %}
       </li>
     </ul>
@@ -24,21 +24,14 @@
 
 <form action="/" method="post">
 {% csrf_token %}
-{{ form.todo_field.label }}
-{{ form.todo_field }}
-{{ form.todo_field.errors }}
-<input type="submit" class="button" value="Add To Do Item">
+{{ form.chirp_field.label }}
+{{ form.chirp_field }}
+{{ form.chirp_field.errors }}
+<input type="submit" class="button" value="Post Chirp">
 </form>
-<p>Fun fact, if you open this page in another window and add a
-  a todo item, this window will automatically update
-  within 10 seconds. This means that you don't have to
-  refresh the page to view new data. Nifty, right?
-  Javascript sure is cool and useful.</p>
-<br>
-<p>(If you want to delete, you better be an admin)</p>
 {% endblock %}
 
 {% block script %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="{% static "js/myvue.js" %}"></script>
+<script src="{% static "js/chirp.js" %}"></script>
 {% endblock %}
