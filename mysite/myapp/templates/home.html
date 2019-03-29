@@ -3,6 +3,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+<h5> Logged in as: {{ user.username }}</h5>
   <a href="/logout/">Logout</a>
 {% else %}
   <a href="/login/">Login</a>
