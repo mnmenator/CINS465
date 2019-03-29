@@ -2,6 +2,11 @@
 {% include "base.html" %}
 
 {% block content %}
+{% if user.is_authenticated %}
+  <a href="/logout/">Logout</a>
+{% else %}
+  <a href="/login/">Login</a>
+{% endif %}
 <div id="chirp-app">
   <span v-if="seen">
     <ul>
@@ -22,6 +27,7 @@
   </span>
 </div>
 
+{% if user.is_authenticated %}
 <form action="/" method="post">
 {% csrf_token %}
 {{ form.chirp_field.label }}
@@ -29,6 +35,7 @@
 {{ form.chirp_field.errors }}
 <input type="submit" class="button" value="Post Chirp">
 </form>
+{% endif %}
 {% endblock %}
 
 {% block script %}

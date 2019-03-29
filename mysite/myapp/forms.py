@@ -22,8 +22,8 @@ class ChirpForm(forms.Form):
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
-        label = "Email",
-        required = True
+        label="Email",
+        required=True
         )
 
     class Meta:
