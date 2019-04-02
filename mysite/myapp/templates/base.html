@@ -13,6 +13,9 @@
   </head>
   <body>
   <h2>{{ header }}</h2>
+  {% if user.is_authenticated %}
+    <h5> Logged in as: {{ user.username }}</h5>
+  {% endif %}
   {% block content %}
   {% endblock %}
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

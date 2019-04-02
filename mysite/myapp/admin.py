@@ -4,4 +4,5 @@ from . import models
 
 # Register your models here.
 admin.site.register(models.ToDoItem)
-admin.site.register(models.ChirpItem)
+admin.site.register(models.Chirp)
+admin.site.register(models.Comment)

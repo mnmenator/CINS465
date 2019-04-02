@@ -13,4 +13,5 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view()),
     path('register/', views.register),
     path('logout/', views.logout_view),
+    path('comment/<int:chirp>/', views.comment_view),
 ]

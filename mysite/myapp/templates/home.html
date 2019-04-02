@@ -3,7 +3,6 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h5> Logged in as: {{ user.username }}</h5>
   <a href="/logout/">Logout</a>
 {% else %}
   <a href="/login/">Login</a>
@@ -12,7 +11,7 @@
   <span v-if="seen">
     <ul>
       {% for item in item_list %}
-          <li>{{ item }}</li>
+          <li>{{ item.chirp_field }} - {{ item.chirp_author.username }}</li>
       {% endfor %}
     </ul>
   </span>
@@ -20,8 +19,7 @@
     <ul>
       <li v-for="chirp in chirps">
         {% verbatim %}
-        <!-- {{ todo.text }} -->
-        {{ chirp.chirp }}
+        {{ chirp.chirp }} - {{ chirp.author }} - <a v-bind:href="'comment/' + chirp.id + '/'">comment</a>
         {% endverbatim %}
       </li>
     </ul>

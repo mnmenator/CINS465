@@ -20,6 +20,11 @@ class ChirpForm(forms.Form):
                                   max_length=240,
                                   widget=forms.TextInput(attrs={'class':'textInput'}))
 
+class CommentForm(forms.Form):
+    comment_field = forms.CharField(label='Comment:',
+                                    max_length=240,
+                                    widget=forms.TextInput(attrs={'class':'textInput'}))
+
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
         label="Email",

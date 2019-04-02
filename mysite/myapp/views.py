@@ -1,6 +1,7 @@
 #import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 #from django.utils.html import escape
 from django.http import JsonResponse
 # Create your views here.
@@ -8,20 +9,22 @@ from django.http import JsonResponse
 from . import models
 from . import forms
 
+#@login_required(redirect_field_name='/', login_url="/login/")
 def index(request):
     if request.method == "POST":
         form_instance = forms.ChirpForm(request.POST)
         if form_instance.is_valid():
-            new_td = models.ChirpItem()
-            new_td.chirp_field = form_instance.cleaned_data["chirp_field"]
-            new_td.save()
+            new_chirp = models.Chirp()
+            new_chirp.chirp_field = form_instance.cleaned_data["chirp_field"]
+            new_chirp.chirp_author = request.user
+            new_chirp.save()
             form_instance = forms.ChirpForm()
     else:
         form_instance = forms.ChirpForm()
-    i_list = models.ChirpItem.objects.all()
+    i_list = models.Chirp.objects.all()
     context = {
-        "header":"Chirper",
-        "title":"Chirper",
+        "header":"Chatter",
+        "title":"Chatter",
         "item_list":i_list,
         "form":form_instance
     }
@@ -76,11 +79,15 @@ def todos_json(request):
     return JsonResponse(resp_list)
 
 def chirps_json(request):
-    i_list = models.ChirpItem.objects.all()
+    i_list = models.Chirp.objects.all()
     resp_list = {}
     resp_list["chirps"] = []
     for item in i_list:
-        resp_list["chirps"] += [{"chirp":item.chirp_field}]
+        resp_list["chirps"] += [{
+            "chirp":item.chirp_field,
+            "author":item.chirp_author.username,
+            "id":item.id
+        }]
     return JsonResponse(resp_list)
 
 def register(request):
@@ -100,3 +107,25 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect("/")
+
+@login_required(login_url="/login/")
+def comment_view(request, chirp):
+    if request.method == "POST":
+        form_instance = forms.CommentForm(request.POST)
+        if form_instance.is_valid():
+            chirp_instance = models.Chirp.objects.get(id=chirp)
+            new_comment = models.Comment()
+            new_comment.comment_field = form_instance.cleaned_data["comment_field"]
+            new_comment.comment_chirp = chirp_instance
+            new_comment.comment_author = request.user
+            new_comment.save()
+            return redirect("/")
+    else:
+        form_instance = forms.CommentForm()
+    context = {
+        "body":"",
+        "title":"",
+        "form":form_instance,
+        "chirp":chirp
+    }
+    return render(request, "comment.html", context=context)
