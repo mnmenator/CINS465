@@ -26,7 +26,8 @@ def index(request):
         "header":"Chatter",
         "title":"Chatter",
         "item_list":i_list,
-        "form":form_instance
+        "form":form_instance,
+        "comm_form":forms.CommentForm()
     }
     return render(request, "home.html", context=context)
 
@@ -83,10 +84,19 @@ def chirps_json(request):
     resp_list = {}
     resp_list["chirps"] = []
     for item in i_list:
+        comments_list = []
+        comm_list = models.Comment.objects.filter(comment_chirp=item)
+        for comm in comm_list:
+            comments_list += [{
+                "comment":comm.comment_field,
+                "author":comm.comment_author.username,
+                "id":comm.id
+            }]
         resp_list["chirps"] += [{
             "chirp":item.chirp_field,
             "author":item.chirp_author.username,
-            "id":item.id
+            "id":item.id,
+            "comments":comments_list
         }]
     return JsonResponse(resp_list)
 

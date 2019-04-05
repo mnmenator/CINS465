@@ -19,8 +19,20 @@
     <ul>
       <li v-for="chirp in chirps">
         {% verbatim %}
-        {{ chirp.chirp }} - {{ chirp.author }} - <a v-bind:href="'comment/' + chirp.id + '/'">comment</a>
-        {% endverbatim %}
+        {{ chirp.chirp }} - {{ chirp.author }}
+        <ul>
+          <li v-for="comm in chirp.comments">
+            {{ comm.comment }} - {{ comm.author }}
+          </li>
+          {% endverbatim %}
+          {% if user.is_authenticated %}
+          <form v-bind:action="'/comment/' + chirp.id + '/'" method="post">
+            {% csrf_token %}
+            {{ comm_form }}
+            <input type="submit" class="button expanded" value="Comment">
+          </form>
+          {% endif %}
+        </ul>
       </li>
     </ul>
   </span>
