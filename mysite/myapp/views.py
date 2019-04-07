@@ -83,7 +83,7 @@ def chirps_json(request):
     i_list = models.Chirp.objects.all()
     resp_list = {}
     resp_list["chirps"] = []
-    for item in i_list:
+    for item in reversed(i_list):
         comments_list = []
         comm_list = models.Comment.objects.filter(comment_chirp=item)
         for comm in comm_list:

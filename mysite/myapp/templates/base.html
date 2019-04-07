@@ -11,7 +11,24 @@
     {% block css %}
     {% endblock %}
   </head>
-  <body>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text">Chirper</li>
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
+    <div class="top-bar-right">
+      <ul class="menu">
+        {% if user.is_authenticated %}
+        <li><a href="/logout/">Logout</a></li>
+        {% else %}
+        <li><a href="/login/">Log In</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
   <h2>{{ header }}</h2>
   {% if user.is_authenticated %}
     <h5> Logged in as: {{ user.username }}</h5>
