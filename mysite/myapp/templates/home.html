@@ -8,21 +8,21 @@
   <a href="/login/">Login</a>
 {% endif %}
 <div id="chirp-app">
-  <span v-if="seen">
+  <!-- <span v-if="seen">
     <ul>
       {% for item in item_list %}
           <li>{{ item.chirp_field }} - {{ item.chirp_author.username }}</li>
       {% endfor %}
     </ul>
-  </span>
+  </span> -->
   <span v-if="unseen">
     <ul>
       <li v-for="chirp in chirps">
         {% verbatim %}
-        {{ chirp.chirp }} - {{ chirp.author }}
+        {{ chirp.chirp }} - {{ chirp.author }} posted on {{ chirp.created_on }}
         <ul>
           <li v-for="comm in chirp.comments">
-            {{ comm.comment }} - {{ comm.author }}
+            {{ comm.comment }} - {{ comm.author }} posted on {{ comm.created_on }}
           </li>
           {% endverbatim %}
           {% if user.is_authenticated %}

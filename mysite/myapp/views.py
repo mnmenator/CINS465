@@ -90,13 +90,15 @@ def chirps_json(request):
             comments_list += [{
                 "comment":comm.comment_field,
                 "author":comm.comment_author.username,
-                "id":comm.id
+                "id":comm.id,
+                "created_on":comm.created_on
             }]
         resp_list["chirps"] += [{
             "chirp":item.chirp_field,
             "author":item.chirp_author.username,
             "id":item.id,
-            "comments":comments_list
+            "comments":comments_list,
+            "created_on":item.created_on
         }]
     return JsonResponse(resp_list)
 
