@@ -2,6 +2,15 @@
 {% include "base.html" %}
 
 {% block content %}
+{% if user.is_authenticated %}
+<form action="/" method="post">
+{% csrf_token %}
+{{ form.chirp_field.label }}
+{{ form.chirp_field }}
+{{ form.chirp_field.errors }}
+<input type="submit" class="button" value="Post Chirp">
+</form>
+{% endif %}
 <div id="chirp-app">
   <!-- <span v-if="seen">
     <ul>
@@ -14,10 +23,11 @@
     <ul>
       <li v-for="chirp in chirps">
         {% verbatim %}
-        {{ chirp.chirp }} - {{ chirp.author }} posted on {{ chirp.created_on }}
+        <h5>{{ chirp.chirp }}</h5>
+        {{ chirp.author }} posted on {{ chirp.created_on }}
         <ul>
           <li v-for="comm in chirp.comments">
-            {{ comm.comment }} - {{ comm.author }} posted on {{ comm.created_on }}
+            {{ comm.comment }} - {{ comm.author }} commented on {{ comm.created_on }}
           </li>
           {% endverbatim %}
           {% if user.is_authenticated %}
@@ -33,15 +43,6 @@
   </span>
 </div>
 
-{% if user.is_authenticated %}
-<form action="/" method="post">
-{% csrf_token %}
-{{ form.chirp_field.label }}
-{{ form.chirp_field }}
-{{ form.chirp_field.errors }}
-<input type="submit" class="button" value="Post Chirp">
-</form>
-{% endif %}
 {% endblock %}
 
 {% block script %}

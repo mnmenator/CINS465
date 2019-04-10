@@ -23,7 +23,7 @@ def index(request):
         form_instance = forms.ChirpForm()
     i_list = models.Chirp.objects.all()
     context = {
-        "header":"Chatter",
+        "header":"Home",
         "title":"Chatter",
         "item_list":i_list,
         "form":form_instance,
