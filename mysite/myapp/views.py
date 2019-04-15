@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 #from django.utils.html import escape
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 from . import models
@@ -122,6 +123,10 @@ def logout_view(request):
 
 @login_required(login_url="/login/")
 def comment_view(request, chirp):
+    try:
+        models.Chirp.objects.get(id=chirp)
+    except ObjectDoesNotExist:
+        return redirect("/")
     if request.method == "POST":
         form_instance = forms.CommentForm(request.POST)
         if form_instance.is_valid():

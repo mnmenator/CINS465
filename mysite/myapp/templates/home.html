@@ -29,6 +29,7 @@
           <li v-for="comm in chirp.comments">
             {{ comm.comment }} - {{ comm.author }} commented on {{ comm.created_on }}
           </li>
+          <br>
           {% endverbatim %}
           {% if user.is_authenticated %}
           <form v-bind:action="'/comment/' + chirp.id + '/'" method="post">
