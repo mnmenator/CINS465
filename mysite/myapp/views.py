@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 #from django.utils.html import escape
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
 # Create your views here.
 
 from . import models
@@ -31,6 +32,20 @@ def index(request):
         "comm_form":forms.CommentForm()
     }
     return render(request, "home.html", context=context)
+
+def profile_view(request, name):
+    try:
+        user = User.objects.get(username=name)
+    except ObjectDoesNotExist:
+        return redirect("/")
+    i_list = models.Chirp.objects.filter(chirp_author=user)
+    context = {
+        "header":name + "'s Profile",
+        "title":name,
+        "item_list":i_list,
+        "comm_form":forms.CommentForm()
+    }
+    return render(request, "profile.html", context=context)
 
 def helloworld(request):
     context = {
@@ -82,6 +97,33 @@ def todos_json(request):
 
 def chirps_json(request):
     i_list = models.Chirp.objects.all()
+    resp_list = {}
+    resp_list["chirps"] = []
+    for item in reversed(i_list):
+        comments_list = []
+        comm_list = models.Comment.objects.filter(comment_chirp=item)
+        for comm in comm_list:
+            comments_list += [{
+                "comment":comm.comment_field,
+                "author":comm.comment_author.username,
+                "id":comm.id,
+                "created_on":comm.created_on
+            }]
+        resp_list["chirps"] += [{
+            "chirp":item.chirp_field,
+            "author":item.chirp_author.username,
+            "id":item.id,
+            "comments":comments_list,
+            "created_on":item.created_on
+        }]
+    return JsonResponse(resp_list)
+
+def profile_json(request, name):
+    try:
+        user = User.objects.get(username=name)
+    except ObjectDoesNotExist:
+        return redirect("/")
+    i_list = models.Chirp.objects.filter(chirp_author=user)
     resp_list = {}
     resp_list["chirps"] = []
     for item in reversed(i_list):

@@ -24,10 +24,10 @@
       <li v-for="chirp in chirps">
         {% verbatim %}
         <h5>{{ chirp.chirp }}</h5>
-        {{ chirp.author }} posted on {{ chirp.created_on }}
+        <a v-bind:href="'/profile/' + chirp.author + '/'">{{ chirp.author }}</a> posted on {{ chirp.created_on }}
         <ul>
           <li v-for="comm in chirp.comments">
-            {{ comm.comment }} - {{ comm.author }} commented on {{ comm.created_on }}
+            {{ comm.comment }} - <a v-bind:href="'/profile/' + comm.author + '/'">{{ comm.author }}</a> commented on {{ comm.created_on }}
           </li>
           <br>
           {% endverbatim %}
