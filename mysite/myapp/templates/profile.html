@@ -2,7 +2,7 @@
 {% include "base.html" %}
 
 {% block content %}
-<div id="chirp-app">
+<!--<div id="chirp-app">
   <span v-if="unseen">
     <ul>
       <li v-for="chirp in chirps">
@@ -26,11 +26,31 @@
       </li>
     </ul>
   </span>
-</div>
+</div>-->
+
+<ul>
+  {% for item in item_list %}
+      <li><h5>{{ item.chirp_field }}</h5> - posted on {{ item.created_on }}</li>
+      <!--<ul>
+        {% for comm in comments %}
+          {% if comm.comment_chirp == item %}
+            <li>{{ comm.comment_field }} - commented on {{ comm.created_on }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>-->
+      {% if user.is_authenticated %}
+      <form action="../../comment/{{ item.id }}/" method="post">
+        {% csrf_token %}
+        {{ comm_form }}
+        <input type="submit" class="button expanded" value="Comment">
+      </form>
+      {% endif %}
+  {% endfor %}
+</ul>
 
 {% endblock %}
 
-{% block script %}
+<!--{% block script %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="{% static "js/chirp.js" %}"></script>
-{% endblock %}
+{% endblock %}-->
