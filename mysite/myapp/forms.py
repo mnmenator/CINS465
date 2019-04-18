@@ -8,12 +8,6 @@ from django.contrib.auth.models import User
 #        raise forms.ValidationError("Not all uppercase")
 #    return value
 
-class ToDoForm(forms.Form):
-    #suggestion_field = forms.CharField(validators=[must_be_caps]
-    todo_field = forms.CharField(label='To Do:',
-                                 max_length=240,
-                                 widget=forms.TextInput(attrs={'class':'textInput'}))
-
 class ChirpForm(forms.Form):
     #suggestion_field = forms.CharField(validators=[must_be_caps]
     chirp_field = forms.CharField(label='Chirp:',
