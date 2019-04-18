@@ -40,15 +40,13 @@ def profile_view(request, name):
         return redirect("/")
     i_list = models.Chirp.objects.filter(chirp_author=user)
     i_list = reversed(i_list)
-    #comm_list = []
-    #for item in i_list:
-        #comm_list += models.Comment.objects.filter(comment_chirp=item)
+    comm_list = models.Comment.objects.all()    ##doesn't scale, change later
     context = {
         "header":name + "'s Profile",
         "title":name,
         "item_list":i_list,
         "comm_form":forms.CommentForm(),
-        #"comments":comm_list
+        "comments":comm_list                    ##doesn't scale, change later
     }
     return render(request, "profile.html", context=context)
 
