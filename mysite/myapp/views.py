@@ -116,5 +116,6 @@ def comment_view(request, chirp):
     }
     return render(request, "comment.html", context=context)
 
+@login_required(login_url="/login/")
 def room_select_view(request):
     return render(request, "chat/room_select.html", {})
