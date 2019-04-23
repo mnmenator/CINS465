@@ -11,4 +11,5 @@ urlpatterns = [
     path('logout/', views.logout_view),
     path('comment/<int:chirp>/', views.comment_view),
     path('profile/<str:name>/', views.profile_view),
+    path('chat/select/', views.room_select_view)
 ]

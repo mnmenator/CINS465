@@ -115,3 +115,6 @@ def comment_view(request, chirp):
         "chirp":chirp
     }
     return render(request, "comment.html", context=context)
+
+def room_select_view(request):
+    return render(request, "chat/room_select.html", {})
