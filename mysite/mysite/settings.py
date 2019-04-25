@@ -122,3 +122,15 @@ LOGIN_REDIRECT_URL = "/"
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Django channels for real time chat
+# https://channels.readthedocs.io/en/latest/tutorial/part_2.html
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}

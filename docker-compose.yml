@@ -8,6 +8,10 @@ services:
        - .:/code
     expose:
        - 8000
+    depends_on:
+      - redis
+    links:
+      - redis:redis
     command: python /code/mysite/manage.py runserver 0.0.0.0:8000
 
   nginx:
@@ -21,5 +25,11 @@ services:
    #volumes:
    #  - ./mysite/myapp/static:/static
     links:
-      - web:web       
+      - web:web
+
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+
 

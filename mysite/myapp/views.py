@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
+import json
 # Create your views here.
 
 from . import models
@@ -119,3 +121,9 @@ def comment_view(request, chirp):
 @login_required(login_url="/login/")
 def room_select_view(request):
     return render(request, "chat/room_select.html", {})
+
+@login_required(login_url="/login/")
+def room_view(request, room_name):
+    return render(request, 'chat/room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name))
+    })
