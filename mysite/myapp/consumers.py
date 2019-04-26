@@ -1,8 +1,8 @@
 #Django Channels for asynchronous real time chat
 #https://channels.readthedocs.io/en/latest/tutorial/part_3.html
 
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -17,7 +17,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-    async def disconnect(self, close_code):
+    async def disconnect(self):#, close_code):
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -28,6 +28,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        message += " -"
+        message += self.scope["user"].username
 
         # Send message to room group
         await self.channel_layer.group_send(
