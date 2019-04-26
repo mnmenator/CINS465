@@ -2,6 +2,7 @@
 #https://channels.readthedocs.io/en/latest/tutorial/part_3.html
 
 import json
+import datetime
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -27,9 +28,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        message += " -"
+        message = datetime.datetime.now().strftime("%-m/%-d/%Y %-I:%M:%S ")
         message += self.scope["user"].username
+        message += ": "
+        message += text_data_json['message']
 
         # Send message to room group
         await self.channel_layer.group_send(
