@@ -120,7 +120,11 @@ def comment_view(request, chirp):
 
 @login_required(login_url="/login/")
 def room_select_view(request):
-    return render(request, "chat/room_select.html", {})
+    context = {
+        "header":"Chat Room Select",
+        "title":"Room Select"
+    }
+    return render(request, "chat/room_select.html", context=context)
 
 @login_required(login_url="/login/")
 def room_view(request, room_name):

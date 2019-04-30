@@ -28,7 +28,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = datetime.datetime.now().strftime("%-m/%-d/%Y %-I:%M:%S ")
+        message = datetime.datetime.now().strftime("%-m/%-d/%Y %-I:%M:%S%p ")
         message += self.scope["user"].username
         message += ": "
         message += text_data_json['message']
