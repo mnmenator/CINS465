@@ -14,11 +14,13 @@
         {% endfor %}
       </ul>
       {% if user.is_authenticated %}
-      <form action="../../comment/{{ item.id }}/" method="post">
-        {% csrf_token %}
-        {{ comm_form }}
-        <input type="submit" class="button expanded" value="Comment">
-      </form>
+        <form action="../../comment/{{ item.id }}/" method="post">
+          {% csrf_token %}
+          {{ comm_form }}
+          <input type="submit" class="button expanded" value="Comment">
+        </form>
+      {% else %}
+        <br>
       {% endif %}
   {% endfor %}
 </ul>

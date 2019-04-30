@@ -29,14 +29,15 @@
           <li v-for="comm in chirp.comments">
             {{ comm.comment }} - <a v-bind:href="'/profile/' + comm.author + '/'">{{ comm.author }}</a> commented on {{ comm.created_on }}
           </li>
-          <br>
           {% endverbatim %}
           {% if user.is_authenticated %}
-          <form v-bind:action="'/comment/' + chirp.id + '/'" method="post">
-            {% csrf_token %}
-            {{ comm_form }}
-            <input type="submit" class="button expanded" value="Comment">
-          </form>
+            <form v-bind:action="'/comment/' + chirp.id + '/'" method="post">
+              {% csrf_token %}
+              {{ comm_form }}
+              <input type="submit" class="button expanded" value="Comment">
+            </form>
+          {% else %}
+            <br>
           {% endif %}
         </ul>
       </li>

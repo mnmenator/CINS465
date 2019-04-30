@@ -128,6 +128,9 @@ def room_select_view(request):
 
 @login_required(login_url="/login/")
 def room_view(request, room_name):
-    return render(request, 'chat/room.html', {
+    context = {
+        "header":room_name,
+        "title":room_name,
         'room_name_json': mark_safe(json.dumps(room_name))
-    })
+    }
+    return render(request, 'chat/room.html', context=context)
