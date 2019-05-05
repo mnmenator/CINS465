@@ -5,23 +5,29 @@
 
 <ul>
   {% for item in item_list %}
-      <li><h5>{{ item.chirp_field }}</h5> - posted on {{ item.created_on }}</li>
-      <ul>
-        {% for comm in comments %}
-          {% if comm.comment_chirp == item %}     <!-- doesn't scale, change later -->
-            <li>{{ comm.comment_field }} - <a href="../{{ comm.comment_author }}/">{{ comm.comment_author }}</a> commented on {{ comm.created_on }}</li>
+    <li><h5>{{ item.chirp_field }}</h5> - posted on {{ item.created_on }}</li>
+    {% if user.is_authenticated and user == item.chirp_author %}
+      <input type="submit" class="button" value="Delete Chirp"/>
+    {% endif %}
+    <ul>
+      {% for comm in comments %}
+        {% if comm.comment_chirp == item %}     <!-- doesn't scale, change later -->
+          <li>{{ comm.comment_field }} - <a href="../{{ comm.comment_author }}/">{{ comm.comment_author }}</a> commented on {{ comm.created_on }}</li>
+          {% if user.is_authenticated and user == comm.comment_author %}
+            <input type="submit" class="button" value="Delete Comment"/>
           {% endif %}
-        {% endfor %}
-      </ul>
-      {% if user.is_authenticated %}
-        <form action="../../comment/{{ item.id }}/" method="post">
-          {% csrf_token %}
-          {{ comm_form }}
-          <input type="submit" class="button expanded" value="Comment">
-        </form>
-      {% else %}
-        <br>
-      {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+    {% if user.is_authenticated %}
+      <form action="../../comment/{{ item.id }}/" method="post">
+        {% csrf_token %}
+        {{ comm_form }}
+        <input type="submit" class="button expanded" value="Comment">
+      </form>
+    {% else %}
+      <br>
+    {% endif %}
   {% endfor %}
 </ul>
 
