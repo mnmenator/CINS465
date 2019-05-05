@@ -3,33 +3,34 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<form action="/" method="post">
-{% csrf_token %}
-{{ form.chirp_field.label }}
-{{ form.chirp_field }}
-{{ form.chirp_field.errors }}
-<input type="submit" class="button" value="Post Chirp">
-</form>
+  <form action="/" method="post">
+    {% csrf_token %}
+    {{ form.chirp_field.label }}
+    {{ form.chirp_field }}
+    {{ form.chirp_field.errors }}
+    <input type="submit" class="button" value="Post Chirp">
+  </form>
 {% endif %}
 <div id="chirp-app">
-  <!-- <span v-if="seen">
-    <ul>
-      {% for item in item_list %}
-          <li>{{ item.chirp_field }} - {{ item.chirp_author.username }}</li>
-      {% endfor %}
-    </ul>
-  </span> -->
   <span v-if="unseen">
     <ul>
       <li v-for="chirp in chirps">
         {% verbatim %}
         <h5>{{ chirp.chirp }}</h5>
         <a v-bind:href="'/profile/' + chirp.author + '/'">{{ chirp.author }}</a> posted on {{ chirp.created_on }}
+        {% endverbatim %}
+        {% if user.is_authenticated %}
+          <input v-if="chirp.author == chirp.current_user" type="submit" class="button" value="Delete Chirp"/>
+        {% endif %}
+        {% verbatim %}
         <ul>
           <li v-for="comm in chirp.comments">
             {{ comm.comment }} - <a v-bind:href="'/profile/' + comm.author + '/'">{{ comm.author }}</a> commented on {{ comm.created_on }}
+        {% endverbatim %}
+            {% if user.is_authenticated %}
+              <input v-if="comm.author == comm.current_user" type="submit" class="button" value="Delete Comment"/>
+            {% endif %}
           </li>
-          {% endverbatim %}
           {% if user.is_authenticated %}
             <form v-bind:action="'/comment/' + chirp.id + '/'" method="post">
               {% csrf_token %}

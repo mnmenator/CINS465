@@ -55,6 +55,9 @@ def chirps_json(request):
     i_list = models.Chirp.objects.all()
     resp_list = {}
     resp_list["chirps"] = []
+    curr_user = ""
+    if request.user.is_authenticated:
+        curr_user = request.user.username       ##not the most efficient way to do this, user is being encoded with every comment and chirp instead of just once
     for item in reversed(i_list):
         comments_list = []
         comm_list = models.Comment.objects.filter(comment_chirp=item)
@@ -63,14 +66,16 @@ def chirps_json(request):
                 "comment":comm.comment_field,
                 "author":comm.comment_author.username,
                 "id":comm.id,
-                "created_on":comm.created_on
+                "created_on":comm.created_on,
+                "current_user":curr_user        ##not the most efficient way to do this
             }]
         resp_list["chirps"] += [{
             "chirp":item.chirp_field,
             "author":item.chirp_author.username,
             "id":item.id,
             "comments":comments_list,
-            "created_on":item.created_on
+            "created_on":item.created_on,
+            "current_user":curr_user        ##not the most efficient way to do this
         }]
     return JsonResponse(resp_list)
 
