@@ -14,7 +14,10 @@
         {% if comm.comment_chirp == item %}     <!-- doesn't scale, change later -->
           <li>{{ comm.comment_field }} - <a href="../{{ comm.comment_author }}/">{{ comm.comment_author }}</a> commented on {{ comm.created_on }}</li>
           {% if user.is_authenticated and user == comm.comment_author %}
-            <input type="submit" class="button" value="Delete Comment"/>
+            <form action="../../delete/{{ comm.id }}/" method="post">
+              {% csrf_token %}
+              <input type="submit" class="button" value="Delete Comment"/>
+            </form>
           {% endif %}
         {% endif %}
       {% endfor %}
