@@ -2,7 +2,6 @@ import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-#from django.utils.html import escape
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
@@ -113,6 +112,18 @@ def comment_view(request, chirp):
             new_comment.comment_author = request.user
             new_comment.save()
             return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        return redirect("/")
+
+@login_required(login_url="/login/")
+def delete_chirp_view(request, chirp):
+    try:
+        models.Chirp.objects.get(id=chirp)
+    except ObjectDoesNotExist:
+        return redirect("/")
+    if request.method == "POST":
+        models.Chirp.objects.get(id=chirp).delete()
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
         return redirect("/")
 

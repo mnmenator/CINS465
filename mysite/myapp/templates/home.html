@@ -20,7 +20,10 @@
         <a v-bind:href="'/profile/' + chirp.author + '/'">{{ chirp.author }}</a> posted on {{ chirp.created_on }}
         {% endverbatim %}
         {% if user.is_authenticated %}
-          <input v-if="chirp.author == chirp.current_user" type="submit" class="button" value="Delete Chirp"/>
+          <form v-bind:action="'/delete-chirp/' + chirp.id + '/'" method="post">
+            {% csrf_token %}
+            <input v-if="chirp.author == chirp.current_user" type="submit" class="button" value="Delete Chirp"/>
+          </form>
         {% endif %}
         {% verbatim %}
         <ul>
@@ -28,7 +31,7 @@
             {{ comm.comment }} - <a v-bind:href="'/profile/' + comm.author + '/'">{{ comm.author }}</a> commented on {{ comm.created_on }}
         {% endverbatim %}
             {% if user.is_authenticated %}
-              <form v-bind:action="'/delete/' + comm.id + '/'" method="post">
+              <form v-bind:action="'/delete-comment/' + comm.id + '/'" method="post">
                 {% csrf_token %}
                 <input v-if="comm.author == comm.current_user" type="submit" class="button" value="Delete Comment"/>
               </form>
