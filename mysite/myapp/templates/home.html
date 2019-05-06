@@ -28,7 +28,10 @@
             {{ comm.comment }} - <a v-bind:href="'/profile/' + comm.author + '/'">{{ comm.author }}</a> commented on {{ comm.created_on }}
         {% endverbatim %}
             {% if user.is_authenticated %}
-              <input v-if="comm.author == comm.current_user" type="submit" class="button" value="Delete Comment"/>
+              <form v-bind:action="'/delete/' + comm.id + '/'" method="post">
+                {% csrf_token %}
+                <input v-if="comm.author == comm.current_user" type="submit" class="button" value="Delete Comment"/>
+              </form>
             {% endif %}
           </li>
           {% if user.is_authenticated %}

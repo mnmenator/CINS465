@@ -117,6 +117,18 @@ def comment_view(request, chirp):
         return redirect("/")
 
 @login_required(login_url="/login/")
+def delete_comment_view(request, comment):
+    try:
+        models.Comment.objects.get(id=comment)
+    except ObjectDoesNotExist:
+        return redirect("/")
+    if request.method == "POST":
+        models.Comment.objects.get(id=comment).delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        return redirect("/")
+
+@login_required(login_url="/login/")
 def room_select_view(request):
     context = {
         "header":"Chat Room Select",
