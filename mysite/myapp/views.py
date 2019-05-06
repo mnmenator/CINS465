@@ -95,7 +95,7 @@ def register(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("/")
+    return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required(login_url="/login/")
 def comment_view(request, chirp):
@@ -112,7 +112,7 @@ def comment_view(request, chirp):
             new_comment.comment_chirp = chirp_instance
             new_comment.comment_author = request.user
             new_comment.save()
-            return redirect("/")
+            return redirect(request.META.get('HTTP_REFERER'))
     else:
         return redirect("/")
 
