@@ -7,7 +7,10 @@
   {% for item in item_list %}
     <li><h5>{{ item.chirp_field }}</h5> - posted on {{ item.created_on }}</li>
     {% if user.is_authenticated and user == item.chirp_author %}
-      <input type="submit" class="button" value="Delete Chirp"/>
+      <form action="../../delete-chirp/{{ item.id }}/" method="post">
+        {% csrf_token %}
+        <input type="submit" class="button" value="Delete Chirp"/>
+      </form>
     {% endif %}
     <ul>
       {% for comm in comments %}
