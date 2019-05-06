@@ -114,14 +114,7 @@ def comment_view(request, chirp):
             new_comment.save()
             return redirect("/")
     else:
-        form_instance = forms.CommentForm()
-    context = {
-        "body":"",
-        "title":"",
-        "form":form_instance,
-        "chirp":chirp
-    }
-    return render(request, "comment.html", context=context)
+        return redirect("/")
 
 @login_required(login_url="/login/")
 def room_select_view(request):
