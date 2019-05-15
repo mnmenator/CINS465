@@ -55,8 +55,8 @@ def chirps_json(request):
     resp_list = {}
     resp_list["chirps"] = []
     curr_user = ""
-    if request.user.is_authenticated:
-        curr_user = request.user.username       ##not the most efficient way to do this, user is being encoded with every comment and chirp instead of just once
+    if request.user.is_authenticated:       ##not the most efficient way to do this
+        curr_user = request.user.username   ##user is encoded with every object instead of just once
     for item in reversed(i_list):
         comments_list = []
         comm_list = models.Comment.objects.filter(comment_chirp=item)
@@ -112,8 +112,7 @@ def comment_view(request, chirp):
             new_comment.comment_author = request.user
             new_comment.save()
             return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect("/")
+    return redirect("/")
 
 @login_required(login_url="/login/")
 def delete_chirp_view(request, chirp):
@@ -124,8 +123,7 @@ def delete_chirp_view(request, chirp):
     if request.method == "POST":
         models.Chirp.objects.get(id=chirp).delete()
         return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect("/")
+    return redirect("/")
 
 @login_required(login_url="/login/")
 def delete_comment_view(request, comment):
@@ -136,8 +134,7 @@ def delete_comment_view(request, comment):
     if request.method == "POST":
         models.Comment.objects.get(id=comment).delete()
         return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect("/")
+    return redirect("/")
 
 @login_required(login_url="/login/")
 def room_select_view(request):
