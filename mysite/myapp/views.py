@@ -65,7 +65,7 @@ def chirps_json(request):
                 "comment":comm.comment_field,
                 "author":comm.comment_author.username,
                 "id":comm.id,
-                "created_on":comm.created_on,
+                "created_on":comm.created_on.strftime("%-m/%-d/%Y at %-I:%M:%S%p"),
                 "current_user":curr_user        ##not the most efficient way to do this
             }]
         resp_list["chirps"] += [{
@@ -73,7 +73,7 @@ def chirps_json(request):
             "author":item.chirp_author.username,
             "id":item.id,
             "comments":comments_list,
-            "created_on":item.created_on,
+            "created_on":item.created_on.strftime("%-m/%-d/%Y at %-I:%M:%S%p"),
             "current_user":curr_user        ##not the most efficient way to do this
         }]
     return JsonResponse(resp_list)
