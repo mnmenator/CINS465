@@ -18,6 +18,9 @@
         <li class="menu-text">Chatter</li>
         <li><a href="/">Home</a></li>
         <li><a href="/chat/select/">Chat Rooms</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="/profile/{{ user.username }}/">Profile</a></li>
+        {% endif %}
         <!--<li>
           <a>One</a>
           <ul class="menu-vertical">
