@@ -41,12 +41,30 @@ def profile_view(request, name):
     i_list = models.Chirp.objects.filter(chirp_author=user)
     i_list = reversed(i_list)
     comm_list = models.Comment.objects.all()    ##doesn't scale, change later
+    try:
+        subject_friend = models.Friend.objects.get(current_user=user)
+    except ObjectDoesNotExist:
+        their_friend_list = []
+    else:
+        their_friend_list = subject_friend.users.all()
+    if request.user.is_authenticated:
+        try:
+            you_friend = models.Friend.objects.get(current_user=request.user)
+        except ObjectDoesNotExist:
+            your_friend_list = []
+        else:
+            your_friend_list = you_friend.users.all()
+    else:
+        your_friend_list = []
     context = {
         "header":name + "'s Profile",
         "title":name,
         "item_list":i_list,
         "comm_form":forms.CommentForm(),
-        "comments":comm_list                    ##doesn't scale, change later
+        "comments":comm_list,                    ##doesn't scale, change later
+        "their_friends":their_friend_list,
+        "your_friends":your_friend_list,
+        "subject":user
     }
     return render(request, "profile.html", context=context)
 
@@ -82,7 +100,6 @@ def register(request):
     if request.method == "POST":
         form_instance = forms.RegistrationForm(request.POST)
         if form_instance.is_valid():
-            ##user = form_instance.save()
             form_instance.save()
             return redirect("/login/")
     else:
@@ -152,3 +169,15 @@ def room_view(request, room_name):
         'room_name_json': mark_safe(json.dumps(room_name))
     }
     return render(request, 'chat/room.html', context=context)
+
+def change_friends(request, operation, user):
+    try:
+        friend = User.objects.get(id=user)
+    except ObjectDoesNotExist:
+        return redirect("/")
+    if request.method == "POST":
+        if operation == 'add':
+            models.Friend.make_friend(request.user, friend)
+        elif operation == 'remove':
+            models.Friend.lose_friend(request.user, friend)
+    return redirect(request.META.get('HTTP_REFERER'))

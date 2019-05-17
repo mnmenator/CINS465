@@ -3,6 +3,27 @@
 
 {% block content %}
 
+<h5>{{ title }}'s Friends:</h5>
+<ul>
+  {% for friend in their_friends %}
+    <li><a href="../{{ friend.username }}/">{{ friend.username }}</a></li>
+  {% endfor %}
+</ul>
+
+{% if user.is_authenticated and not subject in your_friends and user != subject %}
+  <form action="../../change-friend/add/{{ subject.id }}/" method="post">
+    {% csrf_token %}
+    <input type="submit" class="button" value="Add Friend"/>
+  </form>
+{% endif %}
+
+{% if user.is_authenticated and subject in your_friends and user != subject %}
+  <form action="../../change-friend/remove/{{ subject.id }}/" method="post">
+    {% csrf_token %}
+    <input type="submit" class="button" value="Remove Friend"/>
+  </form>
+{% endif %}
+
 <ul>
   {% for item in item_list %}
     <li><h5>{{ item.chirp_field }}</h5> - posted on {{ item.created_on }}</li>

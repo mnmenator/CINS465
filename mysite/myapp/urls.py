@@ -14,5 +14,6 @@ urlpatterns = [
     path('delete-chirp/<int:chirp>/', views.delete_chirp_view),
     path('delete-comment/<int:comment>/', views.delete_comment_view),
     path('chat/select/', views.room_select_view),
-    path('chat/<str:room_name>/', views.room_view)
+    path('chat/<str:room_name>/', views.room_view),
+    path('change-friend/<str:operation>/<int:user>/', views.change_friends)
 ]

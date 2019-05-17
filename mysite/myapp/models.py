@@ -20,6 +20,9 @@ class Comment(models.Model):
     def __str__(self):
         return str(self.comment_field)
 
+##Friend class based on this tutorial https://www.youtube.com/watch?v=IXJ46DitsIg&list=PLw02n0FEB3E3VSHjyYMcFadtQORvl1Ssj&index=55
+##Friends are a one way relationship
+##You can be friends with someone that isn't friends with you, and vice versa
 class Friend(models.Model):
     users = models.ManyToManyField(User)
     current_user = models.ForeignKey(User, related_name='owner', on_delete=models.CASCADE, null=True)
